@@ -1,0 +1,25 @@
+{
+  "name": "microservices-grpc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run clean && tsc && npm run copy-proto",
+    "start": "node ./dist/index.js",
+    "copy-proto": "cp -R ./src/server/grpc/proto ./dist/server/grpc/proto",
+    "clean": "rm -rf ./dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "ts-watch": "^1.0.8",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "grpc": "^1.24.11",
+    "inversify": "^6.0.1",
+    "reflect-metadata": "^0.1.13"
+  }
+}

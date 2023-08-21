@@ -1,0 +1,25 @@
+
+syntax = "proto3";
+
+service TasksController {
+    rpc listTasks (Empty) returns (ListOfTasks);
+    rpc getTaskById (TaskId) returns (Task);
+    rpc markTaskAsDone (TaskId) returns (Task);
+}
+
+message Empty {}
+
+message Task {
+    string id = 1;
+    string description = 2;
+    bool done = 3;
+    string reporter = 4;
+}
+
+message TaskId {
+    string id = 1;
+}
+
+message ListOfTasks {
+    repeated Task tasks = 1;
+}
