@@ -2,7 +2,8 @@
 syntax = "proto3";
 
 service TasksController {
-    rpc listTasks (Empty) returns (ListOfTasks);
+    rpc createTask (Task) returns (Task);
+    rpc listTasks (Paginated) returns (ListOfTasks);
     rpc getTaskById (TaskId) returns (Task);
     rpc markTaskAsDone (TaskId) returns (Task);
 }
@@ -10,14 +11,20 @@ service TasksController {
 message Empty {}
 
 message Task {
-    string id = 1;
-    string description = 2;
-    bool done = 3;
-    string reporter = 4;
+    optional string id = 1;
+    required string description = 2;
+    optional bool done = 3;
+    required string reporter = 4;
+    required string name = 5;
 }
 
 message TaskId {
     string id = 1;
+}
+
+message Paginated {
+    optional int32 page = 1;
+    optional int32 limit = 2;
 }
 
 message ListOfTasks {
