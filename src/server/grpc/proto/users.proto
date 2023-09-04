@@ -1,0 +1,27 @@
+
+syntax = "proto3";
+
+service UsersController {
+    rpc createUser (RequestUser) returns (User);
+    rpc getUserById (UserId) returns (User);
+}
+
+message Empty {}
+
+message UserId {
+    string id = 1;
+}
+
+message RequestUser {
+    string name = 2;
+    string email = 3;
+    string password = 4;
+}
+
+message User {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+    string createdAt = 4;
+    string updatedAt = 5;
+}

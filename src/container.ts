@@ -3,11 +3,12 @@ import grpc from 'grpc';
 import mongoose from 'mongoose';
 import { Container, interfaces } from "inversify";
 
-import { TasksController } from "./server/grpc/controller";
 import { gRPCServerFactory } from './server/grpc/server'
-import { TasksService } from './services';
 
-import { TasksRepository } from './repositories/tasksRepository';
+import { TasksController, UsersController } from "./server/grpc/controller";
+import { TasksService, UsersService } from './services';
+import { TasksRepository, UsersRepository } from './repositories';
+import { createLogger } from './util/logger';
 
 export async function getContainer() {
     const container = new Container();
@@ -20,13 +21,22 @@ export async function getContainer() {
         }
     });
 
-    container.bind(TasksService).to(TasksService).inSingletonScope();
+    container.bind('Logger').toConstantValue(createLogger());
+
     container.bind(TasksRepository).to(TasksRepository).inSingletonScope();
+    container.bind(UsersRepository).to(UsersRepository).inSingletonScope();
+
+    container.bind(TasksService).to(TasksService).inSingletonScope();
+    container.bind(UsersService).to(UsersService).inSingletonScope();
+
     container.bind(TasksController).to(TasksController).inSingletonScope();
+    container.bind(UsersController).to(UsersController).inSingletonScope();
 
     container.bind(grpc.Server).toDynamicValue(({ container }: interfaces.Context) => {
-        const controller = container.get(TasksController);
-        return gRPCServerFactory([controller]);
+        return gRPCServerFactory([
+            container.get(TasksController),
+            container.get(UsersController)
+        ]);
     });
 
     return container;

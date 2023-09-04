@@ -2,6 +2,10 @@
 import mongoose from 'mongoose';
 
 export const UsersSchema = new mongoose.Schema({
+    _id: {
+        type: mongoose.SchemaTypes.ObjectId,
+        default: () => new mongoose.Types.ObjectId()
+    },
     name: {
         type: mongoose.SchemaTypes.String,
         required: true,
@@ -11,8 +15,8 @@ export const UsersSchema = new mongoose.Schema({
         required: true 
     },
     password: {
-        type: mongoose.SchemaTypes.Boolean,
-        default: false
+        type: mongoose.SchemaTypes.String,
+        select: false
     },
 }, {
     collection: 'users',
