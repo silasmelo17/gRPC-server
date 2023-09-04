@@ -1,5 +1,6 @@
 
 import path from 'path';
+import { Logger } from 'winston';
 import { injectable, inject } from 'inversify';
 
 import {
@@ -25,6 +26,7 @@ export class TasksController extends AbstractController {
 
     constructor(
         @inject(TasksService) private readonly tasksService: TasksService,
+        @inject('Logger') private readonly logger: Logger,
     ) {
         super(path.resolve(__dirname, '../proto/tasks.proto'));
         super.serviceImplementation = {
